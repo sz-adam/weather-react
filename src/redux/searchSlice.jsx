@@ -8,7 +8,21 @@ export const fetchCityData = createAsyncThunk(
       const response = await axios.get(
         `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}`
       );
-      return response.data.results[0];
+
+      const cityData = response.data.results[0];
+      if (cityData) {
+        const { latitude, longitude } = cityData;
+        const response = await axios.get(
+          `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,is_day,precipitation,rain,snowfall,wind_speed_10m,wind_gusts_10m&hourly=temperature_2m,rain,wind_speed_10m,wind_gusts_10m,temperature_80m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum`
+        );
+        console.log(response.data, cityData);
+        return {
+          cityData,
+          weatherData: response.data,
+        };
+      } else {
+        throw new Error("City not found.");
+      }
     } catch (error) {
       throw Error(
         error.message || "An error occurred while fetching city data"
@@ -21,6 +35,7 @@ const searchSlice = createSlice({
   name: "weather",
   initialState: {
     cityData: [],
+    weatherData: [],
     status: "idle",
     error: null,
   },
@@ -33,7 +48,7 @@ const searchSlice = createSlice({
       .addCase(fetchCityData.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.cityData = action.payload;
-        console.log(state.cityData);
+        state.weatherData = action.payload.weatherData;
       })
       .addCase(fetchCityData.rejected, (state, action) => {
         state.status = "failed";
