@@ -1,25 +1,12 @@
 import React from "react";
 import Input from "../components/Input";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid2";
-import { styled } from "@mui/material/styles";
 import Place from "../components/Place";
 import DailyWeather from "../components/DailyWeather";
 import { Box } from "@mui/material";
-
 import Sunny from "../components/Sunny";
 import Daysforecast from "../components/Daysforecast";
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  ...theme.applyStyles("dark", {
-    backgroundColor: "#1A2027",
-  }),
-}));
+import HourlyForecast from "../components/HourlyForecast";
 
 function Weather() {
   return (
@@ -56,15 +43,22 @@ function Weather() {
             <Grid
               size={{ xs: 12, md: 4 }}
               sx={{
-                display: "flex",              
+                display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
               <Daysforecast />
             </Grid>
-            <Grid size={{ xs: 12, md: 8 }}>
-              <Item>xs=12 md=8</Item>
+            <Grid
+              size={{ xs: 12, md: 8 }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <HourlyForecast />
             </Grid>
           </Grid>
         </Box>
