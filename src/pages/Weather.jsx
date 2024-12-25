@@ -11,20 +11,12 @@ import { useSelector } from "react-redux";
 import Alert from "@mui/material/Alert";
 
 function Weather() {
-  const { cityData, weatherData, status, error } = useSelector(
+  const { cityData, weatherData, error } = useSelector(
     (state) => state.search
   );
   console.log(weatherData);
 
-  const combinateDailyData = weatherData?.daily.time.map((time, index) => ({
-    time,
-    rain_sum: weatherData.daily.rain_sum[index],
-    snowfall_sum: weatherData.daily.snowfall_sum[index],
-    sunrise: weatherData.daily.sunrise[index],
-    sunset: weatherData.daily.sunset[index],
-    temperature_max: weatherData.daily.temperature_2m_max[index],
-    temperature_min: weatherData.daily.temperature_2m_min[index],
-  }));
+
 
 
   return (
@@ -82,8 +74,7 @@ function Weather() {
                   alignItems: "center",
                 }}
               >
-                <Daysforecast
-                  combinateDailyData={combinateDailyData}
+                <Daysforecast                  
                   units={weatherData.daily_units}
                 />
               </Grid>

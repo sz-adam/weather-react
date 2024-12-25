@@ -4,8 +4,11 @@ import React from "react";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import { useSelector } from "react-redux";
 
-function Daysforecast({ combinateDailyData, units }) {
+function Daysforecast({  units }) {
+    const { combinateDailyData } =
+      useSelector((state) => state.search);
   return (
     <Box
       sx={{
