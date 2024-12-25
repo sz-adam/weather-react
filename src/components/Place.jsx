@@ -1,7 +1,12 @@
 import React from "react";
 import { Box, Typography, Paper } from "@mui/material";
+import { useSelector } from "react-redux";
 
 function Place() {
+  const { cityData, weatherData } = useSelector((state) => state.search);
+  
+  const timeString = weatherData?.current?.time;
+  const [date, time] = timeString ? timeString.split("T") : ["N/A", "N/A"];
   return (
     <Box
       sx={{
@@ -17,7 +22,7 @@ function Place() {
           textAlign: "center",
           borderRadius: "10px",
           width: {
-            xs: "90%",          
+            xs: "90%",
             md: "400px",
           },
           backgroundColor: "#ffffff",
@@ -27,14 +32,14 @@ function Place() {
           variant="h5"
           sx={{ fontWeight: "bold", marginBottom: 2, color: "gray" }}
         >
-          Kecskemét
+          {cityData.name}
         </Typography>
 
         <Typography variant="h2" sx={{ fontWeight: "bold" }}>
-          16:49
+          {time}
         </Typography>
         <Typography variant="h6" sx={{ marginTop: 1, color: "gray" }}>
-          2024.12.22
+          {date}
         </Typography>
       </Paper>
     </Box>
