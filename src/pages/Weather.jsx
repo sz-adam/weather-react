@@ -14,8 +14,19 @@ function Weather() {
   const { cityData, weatherData, status, error } = useSelector(
     (state) => state.search
   );
- console.log(cityData);
- console.log(weatherData);
+  console.log(weatherData);
+
+  const combinateDailyData = weatherData?.daily.time.map((time, index) => ({
+    time,
+    rain_sum: weatherData.daily.rain_sum[index],
+    snowfall_sum: weatherData.daily.snowfall_sum[index],
+    sunrise: weatherData.daily.sunrise[index],
+    sunset: weatherData.daily.sunset[index],
+    temperature_max: weatherData.daily.temperature_2m_max[index],
+    temperature_min: weatherData.daily.temperature_2m_min[index],
+  }));
+
+
   return (
     <Box
       style={{
@@ -62,6 +73,7 @@ function Weather() {
                 <Sunny display={{ xs: "flex", md: "none" }} />
                 <DailyWeather />
               </Grid>
+              {/**Box 3 */}
               <Grid
                 size={{ xs: 12, md: 4 }}
                 sx={{
@@ -70,7 +82,10 @@ function Weather() {
                   alignItems: "center",
                 }}
               >
-                <Daysforecast />
+                <Daysforecast
+                  combinateDailyData={combinateDailyData}
+                  units={weatherData.daily_units}
+                />
               </Grid>
               <Grid
                 size={{ xs: 12, md: 8 }}

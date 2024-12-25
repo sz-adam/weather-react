@@ -1,9 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
-import CloudIcon from "@mui/icons-material/Cloud";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
+import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
 
-function Daysforecast() {
+function Daysforecast({ combinateDailyData, units }) {
   return (
     <Box
       sx={{
@@ -29,104 +31,40 @@ function Daysforecast() {
       >
         7 Days forecast
       </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          width: "100%",
-          marginTop: "10px",
-          marginBottom:"5px"
-        }}
-      >
-        <CloudIcon />
-        <Typography>20 C</Typography>
-        <Typography>Friday, 23 Dec</Typography>
-      </Box>
-      {/**Map függvény után törölni  */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          width: "100%",
-          marginTop: "5px",
-        }}
-      >
-        <CloudIcon />
-        <Typography>20 C</Typography>
-        <Typography>Friday, 23 Dec</Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          width: "100%",
-          marginTop: "5px",
-        }}
-      >
-        <CloudIcon />
-        <Typography>20 C</Typography>
-        <Typography>Friday, 23 Dec</Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          width: "100%",
-          marginTop: "5px",
-        }}
-      >
-        <CloudIcon />
-        <Typography>20 C</Typography>
-        <Typography>Friday, 23 Dec</Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          width: "100%",
-          marginTop: "5px",
-        }}
-      >
-        <CloudIcon />
-        <Typography>20 C</Typography>
-        <Typography>Friday, 23 Dec</Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          width: "100%",
-          marginTop: "5px",
-        }}
-      >
-        <CloudIcon />
-        <Typography>20 C</Typography>
-        <Typography>Friday, 23 Dec</Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          width: "100%",
-          marginTop: "5px",
-        }}
-      >
-        <CloudIcon />
-        <Typography>20 C</Typography>
-        <Typography>Friday, 23 Dec</Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          width: "100%",
-          marginTop: "5px",
-        }}
-      >
-        <CloudIcon />
-        <Typography>20 C</Typography>
-        <Typography>Friday, 23 Dec</Typography>
-      </Box>
+
+      {combinateDailyData.map((day, index) => {       
+        let icon = <WbSunnyIcon />; 
+        if (day.rain_sum > 0) {
+          icon = <ThunderstormIcon />; 
+        } else if (day.snowfall_sum > 0) {
+          icon = <AcUnitIcon />; 
+        }
+
+        return (
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              width: "100%",
+              marginTop: "10px",
+              marginBottom: "5px",
+            }}
+          >
+            {icon}
+            <Typography>
+              {day.temperature_max} {units.temperature_2m_max}
+            </Typography>
+            <Typography>
+              {new Date(day.time).toLocaleDateString("en-GB", {
+                weekday: "long",
+                day: "numeric",
+                month: "short",
+              })}
+            </Typography>
+          </Box>
+        );
+      })}
     </Box>
   );
 }
