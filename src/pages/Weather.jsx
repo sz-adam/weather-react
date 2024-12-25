@@ -8,16 +8,14 @@ import Sunny from "../components/Sunny";
 import Daysforecast from "../components/Daysforecast";
 import HourlyForecast from "../components/HourlyForecast";
 import { useSelector } from "react-redux";
-import Alert from '@mui/material/Alert';
-
-
+import Alert from "@mui/material/Alert";
 
 function Weather() {
   const { cityData, weatherData, status, error } = useSelector(
     (state) => state.search
   );
-  console.log(cityData);
-  console.log(weatherData);
+ console.log(cityData);
+ console.log(weatherData);
   return (
     <Box
       style={{
@@ -42,49 +40,62 @@ function Weather() {
             {error}
           </Alert>
         )}
-        <Box sx={{ flexGrow: 1, marginTop: "40px" }}>
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <Place />
+        {weatherData && cityData ? (
+          <Box sx={{ flexGrow: 1, marginTop: "40px" }}>
+            <Grid container spacing={2}>
+              <Grid size={{ xs: 12, md: 4 }}>
+                <Place />
+              </Grid>
+              <Grid
+                size={{ xs: 12, md: 8 }}
+                sx={{
+                  display: "flex",
+                  flexDirection: {
+                    xs: "column",
+                    md: "none",
+                  },
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {/**Box 2 sm megjelenítés */}
+                <Sunny display={{ xs: "flex", md: "none" }} />
+                <DailyWeather />
+              </Grid>
+              <Grid
+                size={{ xs: 12, md: 4 }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Daysforecast />
+              </Grid>
+              <Grid
+                size={{ xs: 12, md: 8 }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <HourlyForecast />
+              </Grid>
             </Grid>
-            <Grid
-              size={{ xs: 12, md: 8 }}
-              sx={{
-                display: "flex",
-                flexDirection: {
-                  xs: "column",
-                  md: "none",
-                },
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/**Box 2 sm megjelenítés */}
-              <Sunny display={{ xs: "flex", md: "none" }} />
-              <DailyWeather />
-            </Grid>
-            <Grid
-              size={{ xs: 12, md: 4 }}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Daysforecast />
-            </Grid>
-            <Grid
-              size={{ xs: 12, md: 8 }}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <HourlyForecast />
-            </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              marginTop: "40px",
+              textAlign: "center",
+              color: "white",
+              fontSize: "1.5rem",
+            }}
+          >
+            Enter a city name .
+          </Box>
+        )}
       </Box>
     </Box>
   );
