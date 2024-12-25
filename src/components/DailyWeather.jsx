@@ -1,12 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
-import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
 import AirIcon from "@mui/icons-material/Air";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import Sunny from "./Sunny";
 import WeatherDetails from "./WeatherDetails";
-import SunriseReceipt from "./SunriseReceipt";
+import TemperatureOverview from "./TemperatureOverview";
 
 function DailyWeather() {
   return (
@@ -23,44 +22,7 @@ function DailyWeather() {
       }}
     >
       {/**Box 1 */}
-      <Box>
-        <Box>
-          <Typography
-            sx={{
-              textAlign: "center",
-              fontSize: {
-                xs: "20px",
-                sm: "30px",
-                md: "40px",
-              },
-            }}
-          >
-            24 C
-          </Typography>
-          <Box
-            sx={{ display: "flex", alignItems: "center", marginBottom: "8px" }}
-          >
-            <Typography sx={{ fontSize: { xs: "12px", sm: "14px" } }}>
-              Feels like:{" "}
-            </Typography>
-            <Typography sx={{ fontSize: { xs: "14px", sm: "16px" } }}>
-              22 C
-            </Typography>
-          </Box>
-        </Box>
-        <SunriseReceipt
-          icon={WbTwilightIcon}
-          value="15:55 AM"
-          label="Sunrise"
-          color="orange"
-        />
-        <SunriseReceipt
-          icon={WbTwilightIcon}
-          value="06:53 AM"
-          label="Sunset"
-          color="black"
-        />
-      </Box>
+      <TemperatureOverview />
       {/**Box 2 */}
       <Sunny display={{ xs: "none", md: "flex" }} />
       {/**Box 3 */}
