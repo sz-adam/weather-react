@@ -7,8 +7,17 @@ import { Box } from "@mui/material";
 import Sunny from "../components/Sunny";
 import Daysforecast from "../components/Daysforecast";
 import HourlyForecast from "../components/HourlyForecast";
+import { useSelector } from "react-redux";
+import Alert from '@mui/material/Alert';
+
+
 
 function Weather() {
+  const { cityData, weatherData, status, error } = useSelector(
+    (state) => state.search
+  );
+  console.log(cityData);
+  console.log(weatherData);
   return (
     <Box
       style={{
@@ -18,8 +27,22 @@ function Weather() {
       }}
     >
       <Input />
-      <div>
-        <Box sx={{ flexGrow: 1, marginTop: "56px" }}>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "20px",
+        }}
+      >
+        {error && (
+          <Alert severity="error" sx={{ textAlign: "center" }}>
+            {error}
+          </Alert>
+        )}
+        <Box sx={{ flexGrow: 1, marginTop: "40px" }}>
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, md: 4 }}>
               <Place />
@@ -62,7 +85,7 @@ function Weather() {
             </Grid>
           </Grid>
         </Box>
-      </div>
+      </Box>
     </Box>
   );
 }
