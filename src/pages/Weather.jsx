@@ -10,20 +10,37 @@ import HourlyForecast from "../components/HourlyForecast";
 import { useSelector } from "react-redux";
 import Alert from "@mui/material/Alert";
 
+import summer from "../assets/images/summer.jpg";
+import rain from "../assets/images/rain.jpg";
+import snow from "../assets/images/snow.jpg";
+
 function Weather() {
-  const { cityData, weatherData, error } = useSelector(
+  const { cityData, weatherData, combinateDailyData, error } = useSelector(
     (state) => state.search
   );
   console.log(weatherData);
 
+  const backgroundImage =
+    combinateDailyData.length > 0 ? combinateDailyData[0] : {};
 
-
+  let image = summer;
+  if (backgroundImage.rain_sum > 0) {
+    image = rain;
+  } else if (backgroundImage.snowfall_sum > 0) {
+    image = snow;
+  }
+  const height = weatherData && cityData ? "100%" : "100vh";
 
   return (
     <Box
-      style={{
-        backgroundColor: "rgb(128, 128, 128)",
-        height: "100vh",
+      sx={{
+        backgroundImage: `url(${image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: {
+          xs:height,
+          md:"100vh"
+        },
         width: "100%",
       }}
     >
@@ -74,9 +91,7 @@ function Weather() {
                   alignItems: "center",
                 }}
               >
-                <Daysforecast                  
-                  units={weatherData.daily_units}
-                />
+                <Daysforecast units={weatherData.daily_units} />
               </Grid>
               <Grid
                 size={{ xs: 12, md: 8 }}
