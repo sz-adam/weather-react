@@ -2,8 +2,25 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import SunriseReceipt from "./SunriseReceipt";
+import { useSelector } from "react-redux";
 
 function TemperatureOverview() {
+  const { combinateDailyData, combinateHourlyData, weatherData } = useSelector(
+    (state) => state.search
+  );
+
+  /**Legközelebbi időpont */
+  let currentHour = weatherData.current.time.slice(0, 13);
+  let foundData = combinateHourlyData.find(
+    (item) => item.time.slice(0, 13) === currentHour
+  );
+
+  /**napkelte napnyugta */
+  const sunriseTime = combinateDailyData[0]?.sunrise;
+  const sunsetTime = combinateDailyData[0]?.sunset;
+  const sunriseT = sunriseTime?.split("T")[1] || "N/A";
+  const sunsetT = sunsetTime?.split("T")[1] || "N/A";
+
   return (
     <Box>
       <Box>
@@ -17,29 +34,30 @@ function TemperatureOverview() {
             },
           }}
         >
-          24 C
+          {foundData.temperature_2m} {weatherData.current_units.temperature_2m}
         </Typography>
         <Box
           sx={{ display: "flex", alignItems: "center", marginBottom: "8px" }}
         >
           <Typography sx={{ fontSize: { xs: "12px", sm: "14px" } }}>
-            Feels like:{" "}
+            Feels like:
           </Typography>
           <Typography sx={{ fontSize: { xs: "14px", sm: "16px" } }}>
-            22 C
+            {foundData.apparent_temperature}{" "}
+            {weatherData.current_units.temperature_2m}
           </Typography>
         </Box>
       </Box>
       <SunriseReceipt
         icon={WbTwilightIcon}
-        value="15:55 AM"
-        label="Sunrise"
+        value={sunriseT}
+        label="Sunrise:"
         color="orange"
       />
       <SunriseReceipt
         icon={WbTwilightIcon}
-        value="06:53 AM"
-        label="Sunset"
+        value={sunsetT}
+        label="Sunset:"
         color="black"
       />
     </Box>
