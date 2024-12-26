@@ -1,10 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { useSelector } from "react-redux";
+import WeatherIcon from "./WeatherIcon";
 
 function Daysforecast({ units }) {
   const { combinateDailyData } = useSelector((state) => state.search);
@@ -16,7 +13,6 @@ function Daysforecast({ units }) {
         alignItems: "center",
         justifyContent: "center",
         padding: "5px",
-        backgroundColor: "#ffffff",
         backgroundColor: "rgba(255, 255, 255, 0.3)",
         backdropFilter: "blur(3px)",
         borderRadius: "10px",
@@ -37,34 +33,6 @@ function Daysforecast({ units }) {
       </Typography>
 
       {combinateDailyData.map((day, index) => {
-        let icon = (
-          <WbSunnyIcon
-            sx={{
-              color: "orange",
-              fontSize: "32px",
-            }}
-          />
-        );
-        if (day.rain_sum > 0) {
-          icon = (
-            <ThunderstormIcon
-              sx={{
-                color: "lightskyblue",
-                fontSize: "32px",
-              }}
-            />
-          );
-        } else if (day.snowfall_sum > 0) {
-          icon = (
-            <AcUnitIcon
-              sx={{
-                color: "white",
-                fontSize: "32px",
-              }}
-            />
-          );
-        }
-
         return (
           <Box
             key={index}
@@ -76,7 +44,7 @@ function Daysforecast({ units }) {
               marginBottom: "5px",
             }}
           >
-            {icon}
+            <WeatherIcon combinateDay={day} />
             <Typography>
               {day.temperature_max} {units.temperature_2m_max}
             </Typography>
