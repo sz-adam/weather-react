@@ -8,13 +8,18 @@ function HourlyForecast() {
         padding: 0.9,
         display: "flex",
         flexDirection: "Column",
-        backgroundColor: "#ffffff",
+        backgroundColor: "rgba(255, 255, 255, 0.3)",
+        backdropFilter: "blur(3px)",
         borderRadius: "10px",
         margin: { xs: "6px", md: "2px" },
         width: "90%",
       }}
     >
-      <Typography sx={{textAlign:"center", fontSize:"25px", fontWeight:"bold"}}>Hourly Forecast</Typography>
+      <Typography
+        sx={{ textAlign: "center", fontSize: "25px", fontWeight: "bold" }}
+      >
+        Hourly Forecast
+      </Typography>
       <Box sx={{ display: "flex" }}>
         <Box
           sx={{

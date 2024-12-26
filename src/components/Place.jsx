@@ -25,7 +25,8 @@ function Place() {
             xs: "90%",
             md: "400px",
           },
-          backgroundColor: "#ffffff",
+          backgroundColor: "rgba(255, 255, 255, 0.3)",
+          backdropFilter: "blur(3px)",
         }}
       >
         <Typography

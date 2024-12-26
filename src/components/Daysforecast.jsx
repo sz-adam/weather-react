@@ -6,9 +6,8 @@ import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { useSelector } from "react-redux";
 
-function Daysforecast({  units }) {
-    const { combinateDailyData } =
-      useSelector((state) => state.search);
+function Daysforecast({ units }) {
+  const { combinateDailyData } = useSelector((state) => state.search);
   return (
     <Box
       sx={{
@@ -18,6 +17,8 @@ function Daysforecast({  units }) {
         justifyContent: "center",
         padding: "5px",
         backgroundColor: "#ffffff",
+        backgroundColor: "rgba(255, 255, 255, 0.3)",
+        backdropFilter: "blur(3px)",
         borderRadius: "10px",
         margin: "6px",
         width: {
@@ -35,12 +36,33 @@ function Daysforecast({  units }) {
         7 Days forecast
       </Typography>
 
-      {combinateDailyData.map((day, index) => {       
-        let icon = <WbSunnyIcon />; 
+      {combinateDailyData.map((day, index) => {
+        let icon = (
+          <WbSunnyIcon
+            sx={{
+              color: "orange",
+              fontSize: "32px",
+            }}
+          />
+        );
         if (day.rain_sum > 0) {
-          icon = <ThunderstormIcon />; 
+          icon = (
+            <ThunderstormIcon
+              sx={{
+                color: "lightskyblue",
+                fontSize: "32px",
+              }}
+            />
+          );
         } else if (day.snowfall_sum > 0) {
-          icon = <AcUnitIcon />; 
+          icon = (
+            <AcUnitIcon
+              sx={{
+                color: "white",
+                fontSize: "32px",
+              }}
+            />
+          );
         }
 
         return (
