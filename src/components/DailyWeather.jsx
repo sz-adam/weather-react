@@ -6,8 +6,12 @@ import ThermostatIcon from "@mui/icons-material/Thermostat";
 import Sunny from "./Sunny";
 import WeatherDetails from "./WeatherDetails";
 import TemperatureOverview from "./TemperatureOverview";
+import { useSelector } from "react-redux";
 
 function DailyWeather() {
+  const { combinateDailyData, weatherData } = useSelector(
+    (state) => state.search
+  );
   return (
     <Box
       sx={{
@@ -44,8 +48,24 @@ function DailyWeather() {
             justifyContent: "space-between",
           }}
         >
-          <WeatherDetails icon={ThunderstormIcon} value="2mm" label="Rain" />
-          <WeatherDetails icon={AirIcon} value="17.6 km/h" label="Wind Speed" />
+          <WeatherDetails
+            icon={ThunderstormIcon}
+            value={{
+              weather: combinateDailyData[0].rain_sum,
+              unit: weatherData?.daily_units.rain_sum,
+            }}
+            label="Rain"
+            color="lightBlue"
+          />
+          <WeatherDetails
+            icon={AirIcon}
+            value={{
+              weather: combinateDailyData[0].wind_speed_10m_max,
+              unit: weatherData?.daily_units.wind_speed_10m_max,
+            }}
+            label="Wind Speed"
+            color="cyan"
+          />
         </Box>
         {/**Box 4 */}
         <Box
@@ -57,13 +77,21 @@ function DailyWeather() {
         >
           <WeatherDetails
             icon={ThermostatIcon}
-            value="6 C"
+            value={{
+              weather: combinateDailyData[0].temperature_max,
+              unit: weatherData?.daily_units.temperature_2m_max,
+            }}
             label="Temperature max"
+            color="red"
           />
           <WeatherDetails
             icon={ThermostatIcon}
-            value="-10 C"
+            value={{
+              weather: combinateDailyData[0].temperature_min,
+              unit: weatherData?.daily_units.temperature_2m_min,
+            }}
             label="Temperature min"
+            color="blue"
           />
         </Box>
       </Box>
