@@ -2,9 +2,14 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import WeatherIcon from "./WeatherIcon";
+import { dayTime } from "../utils/WeatherHelper";
 
 function Daysforecast({ units }) {
-  const { combinateDailyData } = useSelector((state) => state.search);
+  const { combinateDailyData, weatherData } = useSelector(
+    (state) => state.search
+  );
+  const night = dayTime(weatherData);
+
   return (
     <Box
       sx={{
@@ -44,7 +49,7 @@ function Daysforecast({ units }) {
               marginBottom: "5px",
             }}
           >
-            <WeatherIcon combinateDay={day} />
+            <WeatherIcon combinateDay={day} night={night} />
             <Typography>
               {day.temperature_max} {units.temperature_2m_max}
             </Typography>

@@ -13,21 +13,25 @@ import Alert from "@mui/material/Alert";
 import summer from "../assets/images/summer.jpg";
 import rain from "../assets/images/rain.jpg";
 import snow from "../assets/images/snow.jpg";
+import nightImage from "../assets/images/night.jpg";
+import { dayTime } from "../utils/WeatherHelper";
 
 function Weather() {
   const { cityData, weatherData, combinateDailyData, error } = useSelector(
     (state) => state.search
   );
-  console.log(weatherData);
+  const night = dayTime(weatherData);
 
   const backgroundImage =
     combinateDailyData.length > 0 ? combinateDailyData[0] : {};
 
-  let image = summer;
+  let image;
   if (backgroundImage.rain_sum > 0) {
     image = rain;
   } else if (backgroundImage.snowfall_sum > 0) {
     image = snow;
+  } else {
+    image = night ? summer : nightImage;
   }
   const height = weatherData && cityData ? "100%" : "100vh";
 
@@ -38,8 +42,8 @@ function Weather() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: {
-          xs:height,
-          md:"100vh"
+          xs: height,
+          md: "100vh",
         },
         width: "100%",
       }}

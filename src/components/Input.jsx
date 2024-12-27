@@ -4,10 +4,13 @@ import TextField from "@mui/material/TextField";
 import { fetchCityData } from "../redux/searchSlice";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Fab } from "@mui/material";
+import { dayTime } from "../utils/WeatherHelper";
 
 function Input() {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
+  const { weatherData } = useSelector((state) => state.search);
+  const night = dayTime(weatherData);
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
@@ -18,7 +21,7 @@ function Input() {
       dispatch(fetchCityData(search));
     }
   };
-  
+
   // Enter gomb
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && search) {
@@ -41,6 +44,13 @@ function Input() {
         onKeyDown={handleKeyDown}
         sx={{
           "& .MuiOutlinedInput-root": {
+            borderRadius: "16px",
+          },
+          "& .MuiOutlinedInput-input": {
+            backgroundColor: night ? "" : "white",
+            borderRadius: "16px",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
             borderRadius: "16px",
           },
           marginTop: "25px",
