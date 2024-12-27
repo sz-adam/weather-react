@@ -8,13 +8,13 @@ import Sunny from "../components/Sunny";
 import Daysforecast from "../components/Daysforecast";
 import HourlyForecast from "../components/HourlyForecast";
 import { useSelector } from "react-redux";
-import Alert from "@mui/material/Alert";
 
 import summer from "../assets/images/summer.jpg";
 import rain from "../assets/images/rain.jpg";
 import snow from "../assets/images/snow.jpg";
 import nightImage from "../assets/images/night.jpg";
 import { dayTime } from "../utils/WeatherHelper";
+import Error from "../components/Error";
 
 function Weather() {
   const { cityData, weatherData, combinateDailyData, error } = useSelector(
@@ -59,11 +59,7 @@ function Weather() {
           marginTop: "20px",
         }}
       >
-        {error && (
-          <Alert severity="error" sx={{ textAlign: "center" }}>
-            {error}
-          </Alert>
-        )}
+        <Error />
         {weatherData && cityData ? (
           <Box sx={{ flexGrow: 1, marginTop: "40px" }}>
             <Grid container spacing={2}>
