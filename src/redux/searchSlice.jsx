@@ -3,40 +3,64 @@ import axios from "axios";
 
 export const fetchCityData = createAsyncThunk(
   "weather/fetchCityData",
-  async (cityName) => {
+  async (cityName, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
+      const geoResponse = await axios.get(
         `https://geocoding-api.open-meteo.com/v1/search?name=${cityName}`
       );
 
-      const cityData = response.data.results[0];
-      if (cityData) {
-        const { latitude, longitude } = cityData;
-        const response = await axios.get(
-          `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,is_day,precipitation,rain,snowfall,wind_speed_10m,wind_gusts_10m&hourly=temperature_2m,rain,wind_speed_10m,wind_gusts_10m,temperature_80m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&daily=rain_sum,snowfall_sum&timezone=auto`
-        );
-
-        const combinateDailyData = response.data.daily.time.map(
-          (time, index) => ({
-            time,
-            rain_sum: response.data.daily.rain_sum[index],
-            snowfall_sum: response.data.daily.snowfall_sum[index],
-            sunrise: response.data.daily.sunrise[index],
-            sunset: response.data.daily.sunset[index],
-            temperature_max: response.data.daily.temperature_2m_max[index],
-            temperature_min: response.data.daily.temperature_2m_min[index],
-          })
-        );
-        return {
-          cityData,
-          weatherData: response.data,
-          combinateDailyData,
-        };
-      } else {
-        throw new Error("City not found.");
+      if (
+        !geoResponse.data ||
+        !geoResponse.data.results        
+      ) {
+        return rejectWithValue("City not found.");
       }
+
+      const cityData = geoResponse.data.results[0];
+      const { latitude, longitude } = cityData;
+
+      const weatherResponse = await axios.get(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,is_day,precipitation,rain,snowfall,wind_speed_10m,wind_gusts_10m&hourly=temperature_2m,apparent_temperature,rain,wind_speed_10m,wind_gusts_10m,temperature_80m&daily=apparent_temperature_max,temperature_2m_max,temperature_2m_min,sunrise,sunset&daily=wind_speed_10m_max,rain_sum,snowfall_sum&timezone=auto`
+      );
+
+      if (!weatherResponse.data) {
+        return rejectWithValue("Failed to fetch weather data.");
+      }
+
+      const combinateDailyData = weatherResponse.data.daily.time.map(
+        (time, index) => ({
+          time,
+          rain_sum: weatherResponse.data.daily.rain_sum[index],
+          snowfall_sum: weatherResponse.data.daily.snowfall_sum[index],
+          sunrise: weatherResponse.data.daily.sunrise[index],
+          sunset: weatherResponse.data.daily.sunset[index],
+          temperature_max: weatherResponse.data.daily.temperature_2m_max[index],
+          temperature_min: weatherResponse.data.daily.temperature_2m_min[index],
+          wind_speed_10m_max:
+            weatherResponse.data.daily.wind_speed_10m_max[index],
+        })
+      );
+
+      const combinateHourlyData = weatherResponse.data.hourly.time.map(
+        (time, index) => ({
+          time,
+          rain: weatherResponse.data.hourly.rain[index],
+          temperature_2m: weatherResponse.data.hourly.temperature_2m[index],
+          wind_gusts_10m: weatherResponse.data.hourly.wind_gusts_10m[index],
+          wind_speed_10m: weatherResponse.data.hourly.wind_speed_10m[index],
+          apparent_temperature:
+            weatherResponse.data.hourly.apparent_temperature[index],
+        })
+      );
+
+      return {
+        cityData,
+        weatherData: weatherResponse.data,
+        combinateDailyData,
+        combinateHourlyData,
+      };
     } catch (error) {
-      throw Error("An error occurred while fetching city data");
+      return rejectWithValue("An error occurred while fetching city data.");
     }
   }
 );
@@ -49,22 +73,25 @@ const searchSlice = createSlice({
     status: "idle",
     error: null,
     combinateDailyData: [],
+    combinateHourlyData: [],
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchCityData.pending, (state) => {
         state.status = "loading";
+        state.error = null;
       })
       .addCase(fetchCityData.fulfilled, (state, action) => {
         state.status = "succeed";
         state.cityData = action.payload.cityData;
         state.weatherData = action.payload.weatherData;
         state.combinateDailyData = action.payload.combinateDailyData;
+        state.combinateHourlyData = action.payload.combinateHourlyData;
       })
       .addCase(fetchCityData.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message;
       });
   },
 });
