@@ -52,7 +52,8 @@ function Sunny({ display }) {
         justifyContent: "space-around",
         alignItems: "center",
         textAlign: "center",
-        backgroundColor: "white",
+        backgroundColor: "rgba(255, 255, 255, 0.3)",
+        backdropFilter: "blur(3px)",
         borderRadius: "10px",
         margin: "6px",
         width: {
