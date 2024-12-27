@@ -1,7 +1,20 @@
 import { Box, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+
 import React from "react";
+import HourlyDisplay from "./HourlyDisplay";
 
 function HourlyForecast() {
+  const { combinateHourlyData, weatherData } = useSelector(
+    (state) => state.search
+  );
+  const currentTime = new Date(weatherData.current.time);
+
+  // Tömb szürése idő alapján
+  const filteredHourlyData = combinateHourlyData.filter(
+    (data) => new Date(data.time) > currentTime
+  );
+
   return (
     <Box
       sx={{
@@ -13,6 +26,7 @@ function HourlyForecast() {
         borderRadius: "10px",
         margin: { xs: "6px", md: "2px" },
         width: "90%",
+        maxWidth: { xs: "320px", sm: "500px", md: "1000px" },
       }}
     >
       <Typography
@@ -24,19 +38,23 @@ function HourlyForecast() {
         <Box
           sx={{
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             alignItems: "center",
-            border: "1px solid black",
-            margin: "10px",
-            padding: "10px",
-            borderRadius: "25px",
+            overflowX: "auto",
+            padding: "10px 0",
+            gap: "10px",
+            "&::-webkit-scrollbar": {
+              height: "8px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: "#888",
+              borderRadius: "10px",
+            },
           }}
         >
-          <Typography sx={{ padding: "2px" }}>12:00</Typography>
-          <Typography sx={{ padding: "2px" }}>Icon</Typography>
-          <Typography sx={{ padding: "2px" }}>5 C</Typography>
-          <Typography sx={{ padding: "2px" }}>Szél icon</Typography>
-          <Typography sx={{ padding: "2px" }}>3km/h</Typography>
+          {filteredHourlyData.map((data) => (
+            <HourlyDisplay data={data} key={data.time} />
+          ))}
         </Box>
       </Box>
     </Box>
