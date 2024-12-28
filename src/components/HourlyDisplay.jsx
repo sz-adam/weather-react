@@ -24,7 +24,7 @@ function HourlyDisplay({ data }) {
         textAlign: "center",
         border: "1px solid #ccc",
         margin: "10px",
-        padding: "10px",
+        padding: "6px",
         borderRadius: "25px",
         minHeight: "300px",
         backgroundColor: "rgba(255, 255, 255, 0.3)",

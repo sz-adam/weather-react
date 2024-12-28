@@ -24,9 +24,8 @@ function HourlyForecast() {
         backgroundColor: "rgba(255, 255, 255, 0.3)",
         backdropFilter: "blur(3px)",
         borderRadius: "10px",
-        margin: { xs: "6px", md: "2px" },
+        margin: "10px",
         width: "90%",
-        maxWidth: { xs: "320px", sm: "500px", md: "1000px" },
       }}
     >
       <Typography
@@ -34,7 +33,7 @@ function HourlyForecast() {
       >
         Hourly Forecast
       </Typography>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", alignItems: "center",justifyContent:"center" }}>
         <Box
           sx={{
             display: "flex",
@@ -50,6 +49,7 @@ function HourlyForecast() {
               backgroundColor: "#888",
               borderRadius: "10px",
             },
+            maxWidth: { xs: "320px", sm: "670px", md: "960px" },
           }}
         >
           {filteredHourlyData.map((data) => (
