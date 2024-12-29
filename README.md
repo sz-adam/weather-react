@@ -1,8 +1,12 @@
-# React + Vite
+# React + Vite + Material Ui + Redux 
+# Weathr App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Egyszerű időjárás alkalmazás, amely a [Open-Meteo](https://open-meteo.com/) API-t használja az időjárási adatok lekéréséhez. Az alkalmazás célja a Redux és a Material UI használatának és integrációjának gyakorlása egy modern React alkalmazásban.
 
-Currently, two official plugins are available:
+## Főbb technológiák
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React**: A felhasználói felület komponensalapú fejlesztésére.
+- **Vite**: Gyors fejlesztői környezet és build rendszer.
+- **Material-UI**: Stílusos és reszponzív felhasználói felület elemek.
+- **Redux**: Alkalmazás állapotkezelésére.
+- **Axios**: HTTP-kérések kezelésére.
